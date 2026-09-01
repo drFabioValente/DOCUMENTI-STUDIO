@@ -141,13 +141,21 @@ function drawFields(t){
    patch(130,330,970,370);text('Si prescrive:',135,353,20,true);wrap($('prescription').value,135,405,940,36,Number($('rxFont').value),false,8);
  } else if(t==='free'){
    // Foglio libero sulla stessa carta intestata della prescrizione.
-   // Elimina i campi prestampati della prescrizione e lascia solo data, nominativo e testo libero.
-   patch(120,215,1010,560);
+   // Cancella completamente i campi e la firma presenti nel modello originale.
+   patch(120,215,1010,930);
+   patch(650,620,520,430);
    text(fmt($('freeDate').value),855,257,20,true);
    text(name||'COGNOME NOME',135,315,24,true);
    wrap($('freeText').value,135,385,940,38,Number($('freeFont').value),false,18);
-   // Firma/timbro originale in fondo a destra anche nel foglio libero.
-   drawOriginalSignature();
+   // Firma/timbro nitidi in fondo a destra, ben dentro il foglio A4.
+   // Usa l'immagine dedicata già incorporata nell'app, senza ritagliarla.
+   patch(720,1320,450,300);
+   if(signatureImg.complete && signatureImg.naturalWidth){
+     const maxW=360, maxH=230;
+     const scale=Math.min(maxW/signatureImg.naturalWidth,maxH/signatureImg.naturalHeight);
+     const dw=signatureImg.naturalWidth*scale, dh=signatureImg.naturalHeight*scale;
+     ctx.drawImage(signatureImg,1110-dw,1535-dh,dw,dh);
+   }
  } else if(t==='nonago'){
    // L'intero corpo viene cancellato e riscritto in modo continuo.
    // Titolo e firma/timbro originali restano intatti.
