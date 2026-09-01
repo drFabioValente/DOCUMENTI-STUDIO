@@ -146,6 +146,8 @@ function drawFields(t){
    text(fmt($('freeDate').value),855,257,20,true);
    text(name||'COGNOME NOME',135,315,24,true);
    wrap($('freeText').value,135,385,940,38,Number($('freeFont').value),false,18);
+   // Firma/timbro originale in fondo a destra anche nel foglio libero.
+   drawOriginalSignature();
  } else if(t==='nonago'){
    // L'intero corpo viene cancellato e riscritto in modo continuo.
    // Titolo e firma/timbro originali restano intatti.
